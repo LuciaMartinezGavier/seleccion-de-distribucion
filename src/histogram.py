@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from scipy.stats import gamma, lognorm
+from scipy.stats import gamma, lognorm, weibull_min, chi
 import numpy as np
 from parse_sample import parse_sample
 
@@ -18,7 +18,7 @@ def plot_histogram_with_distr(values):
     x = np.linspace(0, max(values), 100)
     pdf = gamma.pdf(x, shape, loc=loc, scale=scale)
     pdf_scaled = pdf * histogram_area  # Scale the PDF to match histogram frequency
-    plt.plot(x, pdf_scaled, lw=2, label='Gamma PDF')
+    plt.plot(x, pdf_scaled, lw=2, label='Gamma')
 
 
     # Overlay log-normal distribution
@@ -27,12 +27,25 @@ def plot_histogram_with_distr(values):
     pdf = lognorm.pdf(x, shape, loc=loc, scale=scale) * histogram_area
     plt.plot(x, pdf, lw=2, label='Log-Normal', color='pink')
 
+    # Overlay weibull distribution
+    shape, loc, scale = weibull_min.fit(values, floc=0)
+    x = np.linspace(min(values), max(values), 100)
+    pdf = weibull_min.pdf(x, shape, loc=loc, scale=scale) * histogram_area
+    plt.plot(x, pdf, lw=2, label='Weibull', color='yellow')
+
+    # Overlay chi distribution
+    df, loc, scale = chi.fit(values)
+    x = np.linspace(min(values), max(values), 100)
+    pdf = chi.pdf(x, df, loc=loc, scale=scale) * histogram_area
+    plt.plot(x, pdf, lw=2, label='Chi', color='lightgreen')
 
     # Set plot properties
     plt.xlabel('Valor')
     plt.ylabel('Frecuencia')
     plt.title('Histograma y distribuciones Gamma y Log Normal')
     plt.legend()
+
+
 
     # Show the plot
     plt.savefig("../plots/histogram_with_distributions")
