@@ -31,7 +31,7 @@ def estimate_gamma(data):
 
 def plot_histogram_with_distr(values):
     # Create the histogram
-    n, bins, patches = plt.hist(values, bins=20, edgecolor='white')
+    n, bins, patches = plt.hist(values, edgecolor='white')
 
     # Calculate the bin widths
     bin_widths = bins[1:] - bins[:-1]
