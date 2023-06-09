@@ -12,3 +12,5 @@ En el archivo `histogram.py` se encuentran las funciones que plotean el histogra
 En el archivo `box plot` está el código correspondiente al gráfico del box plot y también se encuentran las funciones de los estimadores y el cálculo de los cuantiles. (EJERCICIO 2a y 2b)
 
 En el archivo `estimations.py` se encuentran las funciones que devuelven los estimadores de máxima verosimilitud de las distribuciones log-normal y gamma. Además se encuentra una función que plotea el histograma junto a las funciones de densidad de la distribucion gamma y log-normal con los parametros obtenidos a partir de los datos. (EJERCICIO 3)
+
+En el archivo `compare_frecuency` se encuentra el código que realiza los histogramas que comparan la frecuencia de los datos de la muestra con los teóricos para las distribuciones gamma y lognormal con los parámetros estimados por las funciones de `estimations.py`. (EJERCICIO 4a)
