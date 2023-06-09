@@ -5,7 +5,7 @@ from parse_sample import parse_sample
 
 def plot_histogram(values):
     # Create the histogram
-    plt.hist(values, bins='auto',  edgecolor='white')
+    plt.hist(values, bins='auto',  density=True, edgecolor='white')
 
     # Set plot properties
     plt.xlabel('Valor')

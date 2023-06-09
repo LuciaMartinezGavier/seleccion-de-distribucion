@@ -31,27 +31,22 @@ def estimate_gamma(data):
 
 def plot_histogram_with_distr(values):
     # Create the histogram
-    n, bins, patches = plt.hist(values, bins='auto', edgecolor='white')
+    n, bins, patches = plt.hist(values, density=True, bins='auto', edgecolor='white')
 
     # Calculate the bin widths
     bin_widths = bins[1:] - bins[:-1]
-
-    # Calculate the area under the histogram bars
-    histogram_area = np.sum(n * bin_widths)
 
     # Overlay gamma distribution
     a, b = estimate_gamma(values)
     x = np.linspace(0, max(values), 100)
     pdf = gamma.pdf(x, a, loc=0, scale=b)
-    pdf_scaled = pdf * histogram_area  # Scale the PDF to match histogram frequency
-    plt.plot(x, pdf_scaled, lw=2, label='Gamma')
+    plt.plot(x, pdf, lw=2, label='Gamma')
 
     # Overlay lognormal distribution
     u, sigma = estimate_log_normal(values)
     x = np.linspace(0, max(values), 100)
     pdf = lognorm.pdf(x, s=sigma, loc=0, scale=np.exp(u))
-    pdf_scaled = pdf * histogram_area  # Scale the PDF to match histogram frequency
-    plt.plot(x, pdf_scaled, lw=2, label='Lognormal')
+    plt.plot(x, pdf, lw=2, label='Lognormal')
 
     # Set plot properties
     plt.xlabel('Valor')
