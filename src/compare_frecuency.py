@@ -7,7 +7,7 @@ from estimations import estimate_gamma, estimate_log_normal
 
 def plot_histogram_with_overlay(sample, density_func, distr):
     # Plotting the histogram of the input array
-    hist, bins, _ = plt.hist(sample, density=True, alpha=0.7,color='magenta', label='muestra', edgecolor='white')
+    hist, bins, _ = plt.hist(sample, density=True, bins='auto', alpha=0.7,color='magenta', label='muestra', edgecolor='white')
 
     # Generating x values for the density function
     x = np.linspace(min(sample), max(sample), 100)
