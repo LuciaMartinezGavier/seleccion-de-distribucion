@@ -40,22 +40,6 @@ def p_value_lognormal(data):
     N[k-1] += 1
     return 1 - chi2.cdf(t,k-1)
 
-def p_value_lognormal(data):
-    # frequency, and interval edges
-    N, bins, _ = plt.hist(parse_sample("../sample23.dat"), bins="auto")
-    k = len(bins) - 1
-    n = len(data)
-    mu, sigma = estimate_log_normal(data)
-
-    t = 0
-    for i in range(k):
-        F_a = lognorm.cdf(bins[i], s=sigma, scale=exp(mu))
-        F_b = lognorm.cdf(bins[i+1], s=sigma, scale=exp(mu))
-        p_i = F_b - F_a
-        t += ((N[i] - n*p_i))**2 / (n*p_i)
-    print(t)
-    return 1 - chi2.cdf(t,k-1)
-
 print (p_value_lognormal(parse_sample("../sample23.dat")))
 print (p_value_gamma(parse_sample("../sample23.dat")))
 
