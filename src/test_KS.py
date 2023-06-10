@@ -21,7 +21,7 @@ def simulate_pvalue(Nsim, n, D_KS):
     return pvalue/Nsim
 
 def estimator_KS(Y, F):
-    if (len(sample) != len(set(sample))):
+    if (len(Y) != len(set(Y))):
         print("El test de KS requiere que todos los\
                datos de la muestra sean distintos.")
         return None
@@ -44,6 +44,10 @@ D_gamma = estimator_KS(Y, F_gamma)
 mu, sigma = estimate_log_normal(Y)
 F_lognormal = lognorm.cdf(Y, s=sigma, loc=0, scale=exp(mu))
 D_lognomal = estimator_KS(Y, F_lognormal)
+
+print("Estádisticos D:")
+print("- Gamma     =", D_gamma)
+print("- Lognormal =", D_lognomal)
 
 Nsim = 10000
 pvalue_Gamma = simulate_pvalue(Nsim, n, D_gamma)
