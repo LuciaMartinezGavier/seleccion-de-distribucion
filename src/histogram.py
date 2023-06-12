@@ -5,11 +5,11 @@ from parse_sample import parse_sample
 
 def plot_histogram(values):
     # Create the histogram
-    plt.hist(values, bins='auto',  density=True, edgecolor='white')
+    plt.hist(values, bins='auto',  density=True, edgecolor='white',alpha=0.6, color='magenta')
 
     # Set plot properties
     plt.xlabel('Valor')
-    plt.ylabel('Frecuencia')
+    plt.ylabel('Frecuencia relativa')
     plt.title('Histograma')
 
     # Show the plot

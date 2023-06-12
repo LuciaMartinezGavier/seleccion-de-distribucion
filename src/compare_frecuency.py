@@ -24,9 +24,10 @@ def plot_histogram_with_overlay(sample, density_func, distr):
     plt.hist(x, bins=bins, density=True, alpha=0.3, color='cyan', edgecolor='white', label=distr, weights=y)
 
     # Plot settings
-    plt.xlabel('Value')
-    plt.ylabel('Density')
+    plt.xlabel('Valor')
+    plt.ylabel('Frecuencia relativa')
     plt.legend()
+    plt.title('Comparación con la frecuencia teórica')
     plt.savefig('../plots/compared_frecuency_'+ distr)
     plt.clf()
 

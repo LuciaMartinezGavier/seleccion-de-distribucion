@@ -6,7 +6,7 @@ def plot_points(data):
     y = data[1:]
 
     # Plot the graph
-    plt.scatter(x, y, alpha=0.3)
+    plt.scatter(x, y, alpha=0.3, color='magenta')
     plt.xlabel('Xi')
     plt.ylabel('Xi+1')
     plt.title('Diagrama de dispersión')

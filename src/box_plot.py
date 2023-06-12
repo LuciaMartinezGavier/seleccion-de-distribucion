@@ -39,7 +39,7 @@ def create_box_plot(data):
 
     # Create the box plot
     plt.boxplot(data)
-    plt.scatter(np.random.normal(1, 0.01, len(data)), data, alpha=0.05)
+    plt.scatter(np.random.normal(1, 0.01, len(data)), data, alpha=0.05, color='magenta')
     
     # Set plot properties
     plt.ylabel('Valor')
