@@ -4,43 +4,45 @@ from scipy.stats import lognorm, gamma, chi2
 from estimations import estimate_log_normal, estimate_gamma
 import matplotlib.pyplot as plt
 from math import sqrt
+from numpy import loadtxt
 
-def p_value_gamma(data):
+def p_value_gamma(sample):
     # frequency, and interval edges
-    N, bins, _ = plt.hist(parse_sample("../sample23.dat"), bins=16)
+    N, bins, _ = plt.hist(sample, bins=16)
+    n = len(sample)
     k = len(bins) - 1
-    n = len(data)
-    a, theta = estimate_gamma(data)
+    a, theta = estimate_gamma(sample)
 
-    p_i = gamma.cdf(bins[1], a, scale=theta)
-    t = ((N[0] - n*p_i))**2 / (n*p_i)
-    for i in range(1, k):
-        F_a = gamma.cdf(bins[i], a, scale=theta)
-        F_b = gamma.cdf(bins[i+1], a, scale=theta)
-        p_i = F_b - F_a
-        t += ((N[i] - n*p_i))**2 / (n*p_i)
-    p_i = 1 - gamma.cdf(bins[k-1], a, scale=theta)
-    t += ((N[k-1] - n*p_i))**2 / (n*p_i)
-    return 1 - chi2.cdf(t,k-1)
+    rv = gamma(a = a, scale = theta)
+    t = (N[0] - rv.cdf(bins[1])*n )**2 / (rv.cdf(bins[1]) * n)
+    for i in range(1,k - 1):
+        p_i = rv.cdf(bins[i+1]) - rv.cdf(bins[i])
+        t = t + (N[i] - n*p_i)**2 / (n * p_i)
+    p_j = 1 - rv.cdf(bins[-2])
+    t = t + (N[len(N) - 1] - n*p_j)**2 / (n*p_j)
+    print("Estadistico Gamma: ", t)
+    print(f"p-valor Gamma : {1 - chi2.cdf(t, k - 3)}")
 
-def p_value_lognormal(data):
+def p_value_lognormal(sample):
     # frequency, and interval edges
-    N, bins, _ = plt.hist(parse_sample("../sample23.dat"), bins=16)
-    k = len(bins) - 1
-    n = len(data)
-    mu, sigma = estimate_log_normal(data)
+    N, bins, _ = plt.hist(sample, bins=16)
+    n = len(sample)
+    k = len(bins) -1
+    mu, sigma = estimate_log_normal(sample)
 
-    p_i = lognorm.cdf(bins[1], s=sigma, scale=exp(mu))
-    t = ((N[0] - n*p_i))**2 / (n*p_i)
-    for i in range(1,k):
-        F_a = lognorm.cdf(bins[i], s=sigma, scale=exp(mu))
-        F_b = lognorm.cdf(bins[i+1], s=sigma, scale=exp(mu))
-        p_i = F_b - F_a
-        t += ((N[i] - n*p_i))**2 / (n*p_i)
-    p_i = 1 - lognorm.cdf(bins[k-1], s=sigma, scale=exp(mu))
-    t += ((N[k-1] - n*p_i))**2 / (n*p_i)
+    rv = lognorm(s=sigma, scale=exp(mu))
+    t = (N[0] - rv.cdf(bins[1])*n )**2 / (rv.cdf(bins[1]) * n)
+    for i in range(1,k - 1):
+        p_i = rv.cdf(bins[i+1]) - rv.cdf(bins[i])
+        t = t + (N[i] - n*p_i)**2 / (n * p_i)
+    p_j = 1 - rv.cdf(bins[-2])
+    t = t + (N[len(N) - 1] - n*p_j)**2 / (n*p_j)
 
-    return 1 - chi2.cdf(t,k-1)
+    print("Estadistico Lognormal ", t)
+    print(f"p-valor Lognormal : {1 - chi2.cdf(t, 13)}")
 
-print ("lognormal: ", p_value_lognormal(parse_sample("../sample23.dat")))
-print ("gamma: ", p_value_gamma(parse_sample("../sample23.dat")))
+
+sample = parse_sample("../sample23.dat")
+p_value_gamma(sample)
+p_value_lognormal(sample)
+
